@@ -18,7 +18,8 @@ void my_command(char **argv, char **envir)
 
 	while (1)
 	{
-		printf("cisfun$ ");
+		if (isatty(STDIN_FILENO))
+			printf("cisfun$ ");
 
 		num_char = getline(&my_string, &n, stdin);
 		if (num_char == -1)
