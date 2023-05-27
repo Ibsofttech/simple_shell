@@ -1,53 +1,87 @@
 #include "sshell.h"
-
 /**
- * my_command - to execute a normal shell command without error
- * @argv: argument vector
- * @envir:  evironmental variable
- * Return:  no error return
+ * add_log - add an input from the user to log file
+ * @sev: a pointer to shell environment variable link list
+ * Return: 1 if run successfullyi, 0 if it fails
  */
-
-void my_command(char **argv, char **envir)
+int add_log(sev_t *sev)
 {
-	char *my_string = NULL; /*msg = "cisfun$ "*/
-	int i = 0, status;
-	size_t n = 0;
-	ssize_t num_char;
-	char *args[] = {NULL, NULL};
-	bool from_pipe = false;
-	pid_t child_pid;
-
-	while (1 && !from_pipe)
+	if (add_node(&sev->log, NULL, _strdup(sev->input, &sev->mem)))
 	{
-		if (isatty(STDIN_FILENO) == 0)
-			from_pipe = true;
-		/*write(1, msg, 8);*/
-		printf("cisfun$ ");
-		num_char = getline(&my_string, &n, stdin);
-		if (num_char == -1)
-		{
-			free(my_string);
-			exit(EXIT_FAILURE);
-		}
-		while (my_string[i])
-		{
-			if (my_string[i] == '\n')
-				my_string[i] = '\0';
-			i++;
-		}
-		args[0] = my_string;
-		child_pid = fork();
-		if (child_pid == -1)
-		{
-			free(my_string);
-			exit(EXIT_FAILURE);
-		}
-		if (child_pid == 0)
-		{
-			if (execve(args[0], argv, envir) == -1)
-				printf("%s: No such file or directory\n", argv[0]);
-		}
-		else
-			wait(&status);
+		sev->log_cnt++;
+		sev->cmd_cnt++;
+		return (1);
 	}
+	return (0);
+}
+/**
+ * write_log - write the current session, that is currently being log to a file
+ * @sev: a pointer to the shell environment variable
+ * Return: 1 if run successfully, 0 if it fails
+ */
+int write_log(sev_t *sev)
+{
+	char *fullpath = NULL, *entry = NULL;
+
+	list_t *walker = NULL;
+	int fds = 0, len = 0;
+
+	fullpath = _strcat(_getenvironment("HOME", sev), "/", &sev->mem);
+	fullpath = _strcat(fullpath, LOGFILE, &sev->mem);
+	fds = open(fullpath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fds == -1)
+	{
+		return (0);
+	}
+	reverse_list(&(sev->log));
+	walker = sev->log;
+	while (walker)
+	{
+		entry = walker->value;
+		entry = _strcat(entry, "\n", &sev->mem);
+		len = _strlen(entry);
+		if (write(fds, entry, len) < len)
+		{
+			close(fds);
+			return (0);
+		}
+		walker = walker->next;
+	}
+	close(fds);
+	return (1);
+}
+/**
+ * get_log_count - to read and obtaint number of count of log files
+ * @sev: a pointer to shell environment  variable  struct
+ * Return: number of entered log files, 0 if the nothing is entered
+ */
+int get_log_count(sev_t *sev)
+{
+	char *fullpath = NULL, buffer[MAXBUFREAD];
+	int fds = 0;
+	size_t size = MAXBUFREAD, lines = 0;
+	ssize_t numread = 1, index = 0;
+
+	fullpath = _strcat(_getenvironment("HOME", sev), "/", &sev->mem);
+	fullpath = _strcat(fullpath, LOGFILE, &sev->mem);
+	fds = open(fullpath, O_RDONLY);
+	if (fds == -1)
+	{
+		return (0);
+	}
+	while (numread)
+	{
+		numread = read(fds, &buffer, size);
+		if (numread == -1)
+		{
+			close(fds);
+			return (0);
+		}
+		for (index = 0; index < numread; index++)
+		{
+			if (buffer[index] == '\n')
+				lines++;
+		}
+	}
+	return (lines % MAXLOGSIZE);
 }
