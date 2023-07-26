@@ -21,11 +21,6 @@ int main(int argc, char **argv)
 	{
 		write(STDOUT_FILENO, display, 6);
 		get_return = getline(&strings, &nums, stdin);
-		if (get_return == -1)
-		{
-			free(strings);
-			return (-1);
-		}
 		strings_cpy = malloc(sizeof(char) * get_return);
 		if (strings_cpy == NULL)
 			perror("unable to allocate memory");

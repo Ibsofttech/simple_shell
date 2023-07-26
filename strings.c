@@ -19,12 +19,13 @@ int _strlen(char *s)
 }
 
 /**
- * _strcpy - copies a string
+ * str_cpy - copies a string
  * @dest: the destination
  * @src: the source
  *
  * Return: pointer to destination
  */
+
 char *str_cpy(char *dest, char *src)
 {
 	int i = 0;

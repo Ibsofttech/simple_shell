@@ -15,6 +15,8 @@ char *_strdup(const char *str);
 char *str_cpy(char *dest, char *src);
 int _strlen(char *s);
 void _puts(char *str);
+int _putchar(char c);
 void execmc(char **argv);
+ssize_t get_line(char **strings, size_t *num, FILE *stream);
 
 #endif
