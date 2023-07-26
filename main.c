@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 		strings_cpy = malloc(sizeof(char) * get_return);
 		if (strings_cpy == NULL)
 			perror("unable to allocate memory");
-		strcpy(strings_cpy, strings);
+		str_cpy(strings_cpy, strings);
 		token = strtok(strings, delim);
 		while (token != NULL)
 		{
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 		token = strtok(strings_cpy, delim);
 		for (i = 0; token != NULL; i++)
 		{
-			argv[i] = malloc(sizeof(char) * strlen(token));
+			argv[i] = malloc(sizeof(char) * _strlen(token));
 			strcpy(argv[i], token);
 			token = strtok(NULL, delim);
 		}
