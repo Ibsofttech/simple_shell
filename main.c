@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	size_t nums = 0;
 	ssize_t get_return;
 	char *delim = " \n";
-	int tok_number = 0, i,counter;
+	int tok_number = 0, i, counter;
 
 	while (true)
 	{
