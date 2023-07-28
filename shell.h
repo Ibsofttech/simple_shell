@@ -20,7 +20,7 @@ int _strlen(char *s);
 void _puts(char *str);
 int _putchar(char c);
 char *_strcat(char *dest, char *src);
-int execmc(char **argv);
+int execmc(char **argv, char **env);
 ssize_t get_line(char **strings, size_t *num, FILE *stream);
 void _write(char *str, int stm);
 char **string_tok(char *strings, char *delim);

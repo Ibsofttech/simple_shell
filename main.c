@@ -7,7 +7,7 @@
  * Return: Always 0
 */
 
-int main(int argc __attribute__((unused)), char **argv)
+int main(int argc __attribute__((unused)), char **argv, char **env)
 {
 	char *strings = NULL;
 	size_t nums = 0;
@@ -18,8 +18,8 @@ int main(int argc __attribute__((unused)), char **argv)
 		_write("msh$ ", STDOUT_FILENO);
 		if (getline(&strings, &nums, stdin) == -1)
 		{
-			perror("exiting mshell...");
-			return (-1);
+			free(strings);
+			exit(EXIT_FAILURE);
 		}
 
 		i = 0;
@@ -29,10 +29,11 @@ int main(int argc __attribute__((unused)), char **argv)
 				strings[i] = '\0';
 			i++;
 		}
-		argv = string_tok(strings, " ");
+		argv[0] = strings;
+		/*argv = string_tok(strings, " ");*/
 		if (argv == NULL)
 			continue;
-		execmc(argv);
+		execmc(argv, env);
 	}
 	free(strings), free(argv);
 	return (0);

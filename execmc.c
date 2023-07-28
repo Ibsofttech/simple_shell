@@ -6,7 +6,7 @@
  * Return: NULL
 */
 
-int execmc(char **argv)
+int execmc(char **argv, char **env)
 {
 	pid_t pid;
 	char *command = NULL;
@@ -22,7 +22,7 @@ int execmc(char **argv)
 	{
 		command = argv[0];
 		/*my_command = get_location(command);*/
-		my_exec = execve(command, argv, NULL);
+		my_exec = execve(command, argv, env);
 		if (my_exec == -1)
 		{
 			perror("Error");
