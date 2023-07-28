@@ -8,34 +8,36 @@
  * Return: Always 0
 */
 
+
 int main(int argc __attribute__((unused)), char **argv, char **env)
 {
-	char *strings = NULL;
-	size_t nums = 0;
-	int i;
+    char *strings = NULL;
+    size_t nums = 0;
+    int i;
 
-	while (true)
-	{
-		_write("msh$ ", STDOUT_FILENO);
-		if (getline(&strings, &nums, stdin) == -1)
-		{
-			free(strings);
-			exit(EXIT_FAILURE);
-		}
+    while (true)
+    {
+        printf("msh$ ");
 
-		i = 0;
-		while (strings[i])
-		{
-			if (strings[i] == '\n')
-				strings[i] = '\0';
-			i++;
-		}
-		argv[0] = strings;
-		/*argv = string_tok(strings, " ");*/
-		if (argv == NULL)
-			continue;
-		execmc(argv, env);
-	}
-	free(strings), free(argv);
-	return (0);
+        if (getline(&strings, &nums, stdin) == -1)
+        {
+            perror("Exiting shell");
+            break;
+        }
+
+        i = 0;
+        while (strings[i])
+        {
+            if (strings[i] == '\n')
+                strings[i] = '\0';
+            i++;
+        }
+        argv[0] = strings;
+        if (argv[0] == NULL)
+            continue;
+        execmc(argv, env);
+    }
+
+    free(strings);
+    return 0;
 }
