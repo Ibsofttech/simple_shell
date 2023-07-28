@@ -7,44 +7,33 @@
  * Return: Always 0
 */
 
-int main(int argc, char **argv)
+int main(int argc __attribute__((unused)), char **argv)
 {
-	char *display = "msh$ ";
-	char *strings = NULL, *strings_cpy = NULL;
-	char *token;
+	char *strings = NULL;
 	size_t nums = 0;
-	ssize_t get_return;
-	char *delim = " \n";
-	int tok_number = 0, i, counter;
+	int i;
 
 	while (true)
 	{
-		write(STDOUT_FILENO, display, 6);
-		get_return = getline(&strings, &nums, stdin);
-		strings_cpy = malloc(sizeof(char) * get_return);
-		if (strings_cpy == NULL)
-			perror("unable to allocate memory");
-		str_cpy(strings_cpy, strings);
-		token = strtok(strings, delim);
-		while (token != NULL)
+		_write("msh$ ", STDOUT_FILENO);
+		if (getline(&strings, &nums, stdin) == -1)
 		{
-			tok_number++;
-			token = strtok(NULL, delim);
+			perror("exiting mshell...");
+			return (-1);
 		}
-		tok_number++;
-		argv = malloc(sizeof(char *) * tok_number);
-		token = strtok(strings_cpy, delim);
-		for (i = 0; token != NULL; i++)
+
+		i = 0;
+		while (strings[i])
 		{
-			argv[i] = malloc(sizeof(char) * _strlen(token));
-			strcpy(argv[i], token);
-			token = strtok(NULL, delim);
+			if (strings[i] == '\n')
+				strings[i] = '\0';
+			i++;
 		}
-		argv[i] = NULL;
+		argv = string_tok(strings, " ");
+		if (argv == NULL)
+			continue;
 		execmc(argv);
 	}
-	free(strings);
-	free(strings_cpy);
-	free(argv);
+	free(strings), free(argv);
 	return (0);
 }

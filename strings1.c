@@ -1,6 +1,25 @@
 #include "shell.h"
 
 /**
+ * _write - help prints to user
+ *
+ * @str: what to print
+ * @stm: where to print to (in out or err)
+ *
+ * Return: return nothing
+ */
+
+void _write(char *str, int stm)
+{
+	int index;
+
+	for (index = 0; str[index]; index++)
+	{
+		write(stm, &str[index], 1);
+	}
+}
+
+/**
  * _strdup - duplicates a string
  * @str: the string to duplicate
  *
