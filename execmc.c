@@ -3,6 +3,7 @@
 /**
  * execmc - execute command
  * @argv: command areument
+ * @env: environment variable
  * Return: NULL
 */
 

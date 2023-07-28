@@ -4,6 +4,7 @@
  * main - main function to run simple shell
  * @argc: argument count
  * @argv: argument vector
+ * @env: environment variable
  * Return: Always 0
 */
 
