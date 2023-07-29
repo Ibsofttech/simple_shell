@@ -17,10 +17,13 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 
 	while (true)
 	{
-		printf("msh$ ");
+		if (isatty(STDIN_FILENO))
+			printf("msh$ ");
+
 		if (getline(&strings, &nums, stdin) == -1)
 		{
-			perror("Exiting shell");
+			if (isatty(STDIN_FILENO))
+				perror("Exiting shell");
 			break;
 		}
 
