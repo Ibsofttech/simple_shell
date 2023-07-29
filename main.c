@@ -3,43 +3,22 @@
 /**
  * main - main function to run simple shell
  * @argc: argument count
- * @argv: argument vector
  * @env: environment variable
  * Return: Always 0
 */
 
-
-int main(int argc __attribute__((unused)), char **argv, char **env)
+int main(int argc __attribute__((unused)), char **env)
 {
-	char *strings = NULL;
-	size_t nums = 0;
-	int i;
+	bool interactive = isatty(STDIN_FILENO);
 
-	while (true)
+	if (interactive)
 	{
-		if (isatty(STDIN_FILENO))
-			printf("msh$ ");
-
-		if (getline(&strings, &nums, stdin) == -1)
-		{
-			if (isatty(STDIN_FILENO))
-				perror("Exiting shell");
-			break;
-		}
-
-		i = 0;
-		while (strings[i])
-		{
-			if (strings[i] == '\n')
-				strings[i] = '\0';
-			i++;
-		}
-		argv[0] = strings;
-		if (argv[0] == NULL)
-			continue;
-		execmc(argv, env);
+		interactive_mode(env);
+	}
+	else
+	{
+		non_interactive_mode(env);
 	}
 
-	free(strings);
 	return (0);
 }

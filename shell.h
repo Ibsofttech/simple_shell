@@ -30,5 +30,7 @@ int _strncmp(char *str1, char *str2, size_t n);
 char *get_location(char *command);
 int file_exists(char *path);
 char *find_command_in_path(char *command, char *path);
+void interactive_mode(char  **env);
+void non_interactive_mode(char **env);
 
 #endif
