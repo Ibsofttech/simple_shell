@@ -6,21 +6,29 @@
  * Return: null
 */
 
-void non_interactive_mode(char **env)
+int non_interactive_mode(void)
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t read;
+	char *my_command = NULL, **argv;
+	size_t num = 0;
+	ssize_t get_return;
+    int i, my_exec;
+	
+	if (!isatty(STDIN_FILENO))
+    {
+        while (true)
+	    {   
+			get_return = getline(&my_command, &num, stdin);
 
-	while ((read = getline(&line, &len, stdin)) != -1)
-	{
-		/*Process the command without showing any prompts*/
-		char *argv[2];
+    		if (get_return == -1)
+				{
+            		free(my_command);
+            		return (-1);
+				}
+    		
+    		argv = string_tok(my_command, " \n");
 
-		argv[0] = line;
-		argv[1] = NULL;
-		execmc(argv, env);
+    		my_exec = execmc(argv);
+		}
 	}
-
-	free(line);
+	free(my_command);
 }

@@ -3,22 +3,37 @@
 /**
  * main - main function to run simple shell
  * @argc: argument count
+ * @argv: argument vector
  * @env: environment variable
  * Return: Always 0
 */
 
-int main(int argc __attribute__((unused)), char **env)
+int main(int argc __attribute__((unused)), char **argv)
 {
-	bool interactive = isatty(STDIN_FILENO);
-
-	if (interactive)
+	char *my_command = NULL;
+	size_t num = 0;
+	ssize_t get_return;
+    int i, my_exec;
+	pid_t my_pid;
+	
+	while (true)
 	{
-		interactive_mode(env);
-	}
-	else
-	{
-		non_interactive_mode(env);
-	}
+		
+		{
+			non_interactive_mode();
+			_write("mshell$ ", STDOUT_FILENO);
+			get_return = getline(&my_command, &num, stdin);
 
-	return (0);
+    		if (get_return == -1)
+				{
+            		free(my_command);
+            		return (-1);
+				}
+    		
+    		argv = string_tok(my_command, " \n");
+
+    		my_exec = execmc(argv);
+		}
+	}
+	free(my_command);
 }

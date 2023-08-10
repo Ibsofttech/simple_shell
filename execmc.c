@@ -3,15 +3,14 @@
 /**
  * execmc - execute command
  * @argv: command areument
- * @env: environment variable
  * Return: NULL
 */
 
-int execmc(char **argv, char **env)
+int execmc(char **argv)
 {
 	pid_t pid;
 	char *command = NULL;
-	int my_exec;
+	int my_exec, com_length;
 
 	pid = fork();
 	if (pid == -1)
@@ -19,10 +18,14 @@ int execmc(char **argv, char **env)
 		perror("Error creating a child process.");
 		return (-1);
 	}
-	else if (pid == 0)
+	else if (pid == 0 && argv != NULL)
 	{
 		command = argv[0];
-		my_exec = execve(command, argv, env);
+		/*my_command = get_location(command);*/
+		com_length = _strlen(command);
+		if (command[com_length - 1] == '\n')
+			command[com_length - 1] = '\0';
+		my_exec = execve(command, argv, NULL);
 		if (my_exec == -1)
 		{
 			perror("Error");
@@ -31,7 +34,7 @@ int execmc(char **argv, char **env)
 	}
 	else
 	{
-		/*Parent process waits for child process*/
+	/*parent process should wait for child process*/
 		wait(&my_exec);
 		return (my_exec);
 	}
