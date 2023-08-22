@@ -12,8 +12,6 @@ char *find_command_in_path(char *command, char *path)
 	char *path_copy, *p_token, *full_path;
 	int command_length, token_length;
 
-	if (!path)
-		return (NULL);
 	path_copy = _strdup(path);
 	command_length = _strlen(command);
 	p_token = strtok(path_copy, ":");
@@ -54,6 +52,8 @@ char *get_location(char *command)
 	char *path, *command_location;
 
 	path = getenv("PATH");
+	if (path == NULL)
+		return (NULL);
 	command_location = find_command_in_path(command, path);
 
 	if (command_location)

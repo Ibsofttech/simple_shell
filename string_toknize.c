@@ -6,11 +6,12 @@
  * @delim: delimeter
  * Return: array of tokinized string
 */
+char *argv[] = {NULL, NULL};
 
 char **string_tok(char *strings, char *delim)
 {
 	char *token = NULL, *string_cpy = NULL;
-	char **argv = NULL;
+	//char *argv[] = {NULL, NULL};
 	int num_token = 0, i;
 
 	string_cpy = _strdup(strings);
@@ -21,19 +22,20 @@ char **string_tok(char *strings, char *delim)
 		token = strtok(NULL, delim);
 	}
 	num_token++;
-	argv = malloc(sizeof(char *) * num_token);
+	//argv = malloc(sizeof(char *) * num_token);
 
-	token = NULL;
-	token = strtok(strings, delim);
-	i = 0;
-	while (token)
-	{
-		argv[i] = malloc(sizeof(char) * _strlen(token));
-		str_cpy(argv[i], token);
-		token = strtok(NULL, delim);
-		i++;
-	}
-	argv[i] = NULL;
+	//token = NULL;
+	//token = strtok(strings, delim);
+	argv[0] = token;
+	// i = 0;
+	// while (token)
+	// {
+	// 	argv[i] = malloc(sizeof(char) * _strlen(token));
+	// 	str_cpy(argv[i], token);
+	// 	token = strtok(NULL, delim);
+	// 	i++;
+	// }
+	argv[1] = NULL;
 	free(string_cpy);
 	return (argv);
 }

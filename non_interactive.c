@@ -2,33 +2,22 @@
 
 /**
  * non_interactive_mode - user enter commad
- * @env: environment variable
+ * @my_file: file containing the commands
  * Return: null
 */
 
-int non_interactive_mode(void)
+int non_interactive_mode(const char *my_file)
 {
-	char *my_command = NULL, **argv;
-	size_t num = 0;
-	ssize_t get_return;
-    int i, my_exec;
-	
-	if (!isatty(STDIN_FILENO))
-    {
-        while (true)
-	    {   
-			get_return = getline(&my_command, &num, stdin);
+	int open_file, my_exec;
 
-    		if (get_return == -1)
-				{
-            		free(my_command);
-            		return (-1);
-				}
-    		
-    		argv = string_tok(my_command, " \n");
-
-    		my_exec = execmc(argv);
-		}
+	open_file = open(my_file, O_RDONLY);
+	if (open_file == -1)
+	{
+		perror("error opening file");
+		return (1);
 	}
-	free(my_command);
+
+	my_exec = exec_file_command(open_file);
+	close(open_file);
+	return (my_exec);
 }

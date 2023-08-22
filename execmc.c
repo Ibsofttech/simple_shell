@@ -18,7 +18,7 @@ int execmc(char **argv)
 		perror("Error creating a child process.");
 		return (-1);
 	}
-	else if (pid == 0 && argv != NULL)
+	else if (pid == 0)
 	{
 		command = argv[0];
 		/*my_command = get_location(command);*/
