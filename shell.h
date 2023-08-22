@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
@@ -30,7 +31,8 @@ int _strncmp(char *str1, char *str2, size_t n);
 char *get_location(char *command);
 int file_exists(char *path);
 char *find_command_in_path(char *command, char *path);
-int non_interactive_mode(void);
+int non_interactive_mode(const char *my_file);
+int exec_file_command(int open_file);
 int _getline(void);
 
 #endif
