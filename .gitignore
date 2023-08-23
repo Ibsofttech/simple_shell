@@ -1,5 +1,5 @@
 TEST_SUITE/
 allowed_functions
 runchecker.bash
-hsh
+/hsh
 a.out
