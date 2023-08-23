@@ -4,7 +4,7 @@
  * main - main function to run simple shell
  * @argc: argument count
  * @argv: argument vector
- * Return: Always 0
+ * Return: Always zero
 */
 
 int main(int argc, char **argv)
