@@ -17,7 +17,6 @@ int exec_file_command(int open_file)
 	int content_read = 1;
 	char *argv[] =  {NULL, NULL};
 
-	
 	while (content_read)
 	{
 		read_num = read(open_file, file_count, sizeof(file_count));

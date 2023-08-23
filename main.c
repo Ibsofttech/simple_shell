@@ -12,8 +12,6 @@ int main(int argc, char **argv)
 	char *my_command = NULL;
 	size_t num = 0;
 	ssize_t get_return;
-	int i, my_exec;
-	pid_t my_pid;
 
 	if (argc == 1 && isatty(STDIN_FILENO))
 	{
@@ -31,7 +29,7 @@ int main(int argc, char **argv)
 					my_command[get_return - 1] = '\0';
 
 				argv[0] = my_command;
-				my_exec = execmc(argv);
+				execmc(argv);
 			}
 		}
 		free(my_command);

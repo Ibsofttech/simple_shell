@@ -11,8 +11,8 @@ char *argv[] = {NULL, NULL};
 char **string_tok(char *strings, char *delim)
 {
 	char *token = NULL, *string_cpy = NULL;
-	//char *argv[] = {NULL, NULL};
-	int num_token = 0, i;
+	/*char *argv[] = {NULL, NULL};*/
+	int num_token = 0;
 
 	string_cpy = _strdup(strings);
 	token = strtok(string_cpy, delim);
@@ -22,19 +22,19 @@ char **string_tok(char *strings, char *delim)
 		token = strtok(NULL, delim);
 	}
 	num_token++;
-	//argv = malloc(sizeof(char *) * num_token);
+	/*argv = malloc(sizeof(char *) * num_token);
 
 	//token = NULL;
-	//token = strtok(strings, delim);
+	//token = strtok(strings, delim);*/
 	argv[0] = token;
-	// i = 0;
+	/* i = 0;
 	// while (token)
 	// {
 	// 	argv[i] = malloc(sizeof(char) * _strlen(token));
 	// 	str_cpy(argv[i], token);
 	// 	token = strtok(NULL, delim);
 	// 	i++;
-	// }
+	// }*/
 	argv[1] = NULL;
 	free(string_cpy);
 	return (argv);
