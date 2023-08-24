@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
@@ -34,5 +35,8 @@ char *find_command_in_path(char *command, char *path);
 int non_interactive_mode(const char *my_file);
 int exec_file_command(int open_file);
 int _getline(void);
+void free_args(char **args, int count);
+void rm_newline(char *str);
+void rm_comment(char *input);
 
 #endif

@@ -2,15 +2,16 @@
 
 /**
  * execmc - execute command
- * @argv: command areument
+ * @args: command areument
  * Return: NULL
 */
 
-int execmc(char **argv)
+int execmc(char **args)
 {
 	pid_t pid;
 	char *command = NULL;
-	int my_exec, com_length;
+	int my_exec;
+	int status;
 
 	pid = fork();
 	if (pid == -1)
@@ -20,22 +21,20 @@ int execmc(char **argv)
 	}
 	else if (pid == 0)
 	{
-		command = argv[0];
+		command = args[0];
 		/*my_command = get_location(command);*/
-		com_length = _strlen(command);
-		if (command[com_length - 1] == '\n')
-			command[com_length - 1] = '\0';
-		my_exec = execve(command, argv, NULL);
+		my_exec = execve(command, args, NULL);
 		if (my_exec == -1)
 		{
-			perror("Error");
+			perror("./hsh");
+			exit(EXIT_FAILURE);
 		}
 		exit(my_exec);
 	}
 	else
 	{
 	/*parent process should wait for child process*/
-		wait(&my_exec);
-		return (my_exec);
+		waitpid(pid, &status, 0);
+		return (WIFEXITED(status) ? WEXITSTATUS(status) : -1);
 	}
 }

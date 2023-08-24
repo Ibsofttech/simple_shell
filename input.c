@@ -4,7 +4,6 @@
  * exec_file_command - read command from file and pass
  *                     it to execve
  * @open_file: file to be opened
- * @argv: command from the file
  * Return: the value gottrn from execve
 */
 
@@ -13,9 +12,9 @@ int exec_file_command(int open_file)
 {
 	char file_count[READ_BUF_SIZE];
 	ssize_t read_num;
-	int i, my_exec, exit_myshell = 0;
+	int i, my_exec;
 	int content_read = 1;
-	char *argv[] =  {NULL, NULL};
+	char **args = NULL;
 
 	while (content_read)
 	{
@@ -34,12 +33,17 @@ int exec_file_command(int open_file)
 			if (file_count[i] == '\n')
 				file_count[i] = '\0';
 		}
-		argv[0] = file_count;
-		my_exec = execmc(argv);
+		args = string_tok(file_count, " ");
+		my_exec = execmc(args);
+		for (i = 0; args[i] != NULL; i++)
+		{
+			free(args[i]);
+		}
+		free(args);
 		if (my_exec != 0)
 		{
-			my_exec = exit_myshell;
+			return (my_exec);
 		}
 	}
-	return (exit_myshell);
+	return (0);
 }

@@ -15,7 +15,11 @@ void _write(char *str, int stm)
 
 	for (index = 0; str[index]; index++)
 	{
-		write(stm, &str[index], 1);
+		if (write(stm, &str[index], 1) == -1)
+		{
+			perror("Error writing to file descriptor");
+			return;
+		}
 	}
 }
 
@@ -76,7 +80,11 @@ int _putchar(char c)
 
 	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		write(1, buf, i);
+		if (write(1, buf, i) == -1)
+		{
+			perror("Error writing to file descriptor");
+			return (-1);
+		}
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
