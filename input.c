@@ -29,7 +29,6 @@ int exec_file_command(int open_file)
 			free_args(args, i);
 			break;
 		}
-		
 		my_exec = execmc(args);
 		for (i = 0; args[i] != NULL; i++)
 		{
