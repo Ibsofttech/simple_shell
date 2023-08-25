@@ -11,14 +11,13 @@
 int exec_file_command(int open_file)
 {
 	char file_count[READ_BUF_SIZE];
-	ssize_t read_num;
 	int i, my_exec;
 	char **args = NULL;
 
-	read_num = read(open_file, file_count, sizeof(file_count));
-	while (read_num != -1)
+
+	while (read(open_file, file_count, sizeof(file_count) != -1))
 	{
-		for (i = 0; i < read_num; i++)
+		for (i = 0; file_count[i] != '\0'; i++)
 		{
 			if (file_count[i] == '\n')
 				file_count[i] = '\0';

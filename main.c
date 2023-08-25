@@ -34,6 +34,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 		if (args[0] == NULL)
 		{
 			free_args(args, i);
+			break;
 		}
 		shell_exit_status = execmc(args);
 		for (i = 0; args[i] != NULL; i++)
