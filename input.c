@@ -15,7 +15,8 @@ int exec_file_command(int open_file)
 	int i, my_exec;
 	char **args = NULL;
 
-	while (read(open_file, file_count, sizeof(file_count) != -1))
+	read_num = read(open_file, file_count, sizeof(file_count));
+	while (read_num != -1)
 	{
 		for (i = 0; i < read_num; i++)
 		{
