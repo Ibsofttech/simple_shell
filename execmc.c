@@ -9,7 +9,7 @@
 int execmc(char **args)
 {
 	pid_t pid;
-	char *command = NULL;
+	char *command = NULL, *my_command = NULL;
 	int my_exec;
 	int status;
 
@@ -22,14 +22,14 @@ int execmc(char **args)
 	else if (pid == 0)
 	{
 		command = args[0];
-		/*my_command = get_location(command);*/
-		my_exec = execve(command, args, NULL);
+		my_command = get_location(command);
+		my_exec = execve(my_command, args, NULL);
 		if (my_exec == -1)
 		{
 			perror("./hsh");
-			exit(EXIT_FAILURE);
+			exit(2);
 		}
-		exit(my_exec);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{

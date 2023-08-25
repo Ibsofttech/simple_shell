@@ -26,11 +26,16 @@ int main(__attribute__((unused)) int argc, char **argv)
 		if (get_return == -1)
 		{
 			free(my_command);
-			return (shell_exit_status);
+			exit(shell_exit_status);
 		}
 		rm_newline(my_command);
 		rm_comment(my_command);
 		args = string_tok(my_command, " ");
+		if (args[0] == NULL)
+		{
+			free_args(args, i);
+			break;
+		}
 		shell_exit_status = execmc(args);
 		for (i = 0; args[i] != NULL; i++)
 		{
