@@ -16,6 +16,8 @@
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
+extern char **environ;
+
 char *_strdup(const char *str);
 char *str_cpy(char *dest, char *src);
 int _strlen(char *s);

@@ -23,6 +23,11 @@ int execmc(char **args)
 	{
 		command = args[0];
 		my_command = get_location(command);
+		if (my_command == NULL)
+		{
+			perror("./hsh");
+			exit(127);
+		}
 		my_exec = execve(my_command, args, NULL);
 		if (my_exec == -1)
 		{

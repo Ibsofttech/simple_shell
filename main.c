@@ -9,8 +9,7 @@
 
 int main(__attribute__((unused)) int argc, char **argv)
 {
-	char *my_command = NULL;
-	char **args = NULL;
+	char *my_command = NULL, **args = NULL;
 	size_t num = 0;
 	ssize_t get_return;
 	int shell_exit_status = 0, i;
@@ -34,7 +33,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 		if (args[0] == NULL)
 		{
 			free_args(args, i);
-			break;
+			continue;
 		}
 		shell_exit_status = execmc(args);
 		for (i = 0; args[i] != NULL; i++)
